@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
-const installRoutes = require('./routes/installRoutes');
 dotenv.config();
 
 // Configurações do Express
 app.use(express.json());
 
 // Rotas
+const installRoutes = require('./routes/installRoutes');
 const userRoutes = require('./routes/userRoutes');
 const fichaAnimalRoutes = require('./routes/fichaAnimalRoutes');
 const fichaServicoRoutes = require('./routes/fichaServicoRoutes');

@@ -9,10 +9,7 @@ const FichaServico = sequelize.define('FichaServico', {
   dono: {
     type: DataTypes.INTEGER,
     allowNull: false
-  },
-  dataEntrada: {
-    type: DataTypes.DATE,
-    allowNull: false
+
   },
   problema: {
     type: DataTypes.TEXT,

@@ -1,7 +1,15 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+// const FichaAnimal = require('./fichaAnimal.js');
+
 
 const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
   nome: {
     type: DataTypes.STRING,
     allowNull: false
@@ -18,6 +26,9 @@ const User = sequelize.define('User', {
   telefone: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  admin: {
+    type: DataTypes.BOOLEAN,
   }
 });
 

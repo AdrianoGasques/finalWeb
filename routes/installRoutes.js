@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
     // Inserção de registros nos usuários
     await User.bulkCreate([
-      { nome: 'adriano', email: 'adriano@example.com', senha: '123456', telefone: '111111111' },
+      { nome: 'adriano', email: 'adriano@example.com', senha: '123456', telefone: '111111111', admin : true},
       { nome: 'lucas', email: 'lucas@example.com', senha: '123456', telefone: '222222222' },
       { nome: 'samara', email: 'samara@example.com', senha: '123456', telefone: '333333333' },
       { nome: 'lara', email: 'lara@example.com', senha: '123456', telefone: '444444444' },
@@ -23,22 +23,22 @@ router.get('/', async (req, res) => {
     console.log('Registros de Usuário inseridos com sucesso.');
 
     // Inserção de registros nos animais
-    await Animal.bulkCreate([
-      { nome: 'Animal 1', idade: 2 },
-      { nome: 'Animal 2', idade: 4 },
-      { nome: 'Animal 3', idade: 1 },
-      { nome: 'Animal 4', idade: 3 },
-      { nome: 'Animal 5', idade: 5 }
+    await FichaAnimal.bulkCreate([
+      { nome: 'Animal 1', idade: 2 ,id_user: 1},
+      { nome: 'Animal 2', idade: 4 ,id_user: 2},
+      { nome: 'Animal 3', idade: 1 ,id_user: 3},
+      { nome: 'Animal 4', idade: 3 ,id_user: 4},
+      { nome: 'Animal 5', idade: 5 ,id_user: 5}
     ]);
     console.log('Registros de Animal inseridos com sucesso.');
 
     // Inserção de registros nas fichas
-    await Ficha.bulkCreate([
-      { nome: 'Ficha 1', historico: 'Histórico da ficha 1', AnimalId: 1 },
-      { nome: 'Ficha 2', historico: 'Histórico da ficha 2', AnimalId: 2 },
-      { nome: 'Ficha 3', historico: 'Histórico da ficha 3', AnimalId: 3 },
-      { nome: 'Ficha 4', historico: 'Histórico da ficha 4', AnimalId: 4 },
-      { nome: 'Ficha 5', historico: 'Histórico da ficha 5', AnimalId: 5 }
+    await FichaServico.bulkCreate([
+      {  problema: 'problema do animal 1', animal_id: 1 ,id_user : 1},
+      {  problema: 'problema do animal 1', animal_id: 1 ,id_user : 2},
+      {  problema: 'problema do ficha 3', animal_id: 3 ,id_user : 3},
+      {  problema: 'problema do ficha 4', animal_id: 4 ,id_user : 4},
+      {  problema: 'problema do ficha 5', animal_id: 5 ,id_user : 5}
     ]);
     console.log('Registros de Ficha inseridos com sucesso.');
 

@@ -1,18 +1,20 @@
 const User = require('../models/user');
 const { Op } = require('sequelize');
-
+const {
+  getUserById,
+  getUsersByNome,
+  getUsersByTelefone
+} = require('../middlewares/userMiddleware');
 
 // Listagem de usuários com paginação
 exports.getAll = async (req, res) => {
   try {
-    const { limite = 10, pagina = 1 } = req.query;
-    const offset = (pagina - 1) * limite;
-
+    const { limit_: limit_ = 10, offset_: offset_ = 1 } = req.query;
+    const offset = (offset_ - 1) * limit_;
     const users = await User.findAll({
-      limit: +limite,
+      limit: +limit_,
       offset,
     });
-
     res.json(users);
   } catch (error) {
     console.error(error);
@@ -42,14 +44,7 @@ exports.create = async (req, res) => {
 // Busca de um usuário pelo ID
 exports.getById = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const user = await User.findByPk(id);
-
-    if (!user) {
-      return res.status(404).json({ mensagem: 'Usuário não encontrado' });
-    }
-
+    const user = req.user;
     res.json(user);
   } catch (error) {
     console.error(error);
@@ -60,20 +55,7 @@ exports.getById = async (req, res) => {
 // Busca de usuários por nome
 exports.getByNome = async (req, res) => {
   try {
-    const { nome } = req.params;
-
-    const users = await User.findAll({
-      where: {
-        nome: {
-          [Op.like]: `%${nome}%` // Pesquisa por correspondência parcial
-        }
-      }
-    });
-
-    if (users.length === 0) {
-      return res.status(404).json({ mensagem: 'Nenhum usuário encontrado' });
-    }
-
+    const users = req.users;
     res.json(users);
   } catch (error) {
     console.error(error);
@@ -84,18 +66,7 @@ exports.getByNome = async (req, res) => {
 // Busca de usuários por telefone
 exports.getByTelefone = async (req, res) => {
   try {
-    const { telefone } = req.params;
-
-    const users = await User.findAll({
-      where: {
-        telefone: telefone
-      }
-    });
-
-    if (users.length === 0) {
-      return res.status(404).json({ mensagem: 'Nenhum usuário encontrado' });
-    }
-
+    const users = req.users;
     res.json(users);
   } catch (error) {
     console.error(error);
@@ -109,11 +80,7 @@ exports.update = async (req, res) => {
     const { id } = req.params;
     const { nome, email, senha, telefone } = req.body;
 
-    const user = await User.findByPk(id);
-
-    if (!user) {
-      return res.status(404).json({ mensagem: 'Usuário não encontrado' });
-    }
+    const user = req.user;
 
     user.nome = nome;
     user.email = email;
@@ -132,13 +99,7 @@ exports.update = async (req, res) => {
 // Exclusão de um usuário
 exports.delete = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const user = await User.findByPk(id);
-
-    if (!user) {
-      return res.status(404).json({ mensagem: 'Usuário não encontrado' });
-    }
+    const user = req.user;
 
     await user.destroy();
 

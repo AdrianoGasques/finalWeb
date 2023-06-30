@@ -8,7 +8,8 @@ exports.create = async (req, res) => {
     const novaFichaAnimal = await FichaAnimal.create({
       nome,
       idade,
-      historico
+      historico,
+      userId: req.params.id
     });
 
     res.status(201).json({ mensagem: 'Ficha de animal criada com sucesso', fichaAnimal: novaFichaAnimal });

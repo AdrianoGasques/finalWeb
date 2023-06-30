@@ -5,7 +5,8 @@ const { getUserById, getUsersByNome, getUsersByTelefone } = require('../middlewa
 // Listagem de usuários com paginação
 exports.getAll = async (req, res) => {
   try {
-    const { limit_: limit_ = 10, offset_: offset_ = 1 } = req.query;
+    // valor padrão limite 5 e offset 1
+    const { limit_: limit_ = 5, offset_: offset_ = 1 } = req.query;
     const offset = (offset_ - 1) * limit_;
     const users = await User.findAll({
       limit: +limit_,

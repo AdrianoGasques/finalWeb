@@ -8,10 +8,14 @@ const { getUserById } = require('../middlewares/userMiddleware');
 
 
 // Rota para criar um administrador
-router.post('/admin', userController.createAdmin);
+router.post('/admin', isAdmin, userController.createAdmin);
+
+
 
 // Rota pública para criação de usuário
 router.post('/create', userController.create);
+
+
 
 //rota para usuarios somente os mesmos
 router.get('/:id', authenticate, authorizeUser, getUserById, userController.getById);
@@ -20,8 +24,8 @@ router.put('/:id', authenticate, authorizeUser, getUserById, userController.upda
 
 // Rotas que exigem autenticação de administrador
 router.get('/', isAdmin,userController.getAll);
-router.get('/admin/:id', isAdmin, getUserById, userController.getById);
-router.delete('/admin/:id', isAdmin, userController.delete);
+router.get('/:id', isAdmin, getUserById, userController.getById);
+router.delete('/:id', isAdmin, userController.delete);
 router.get('/nome/:nome', isAdmin, userController.getByNome);
 router.get('/telefone/:telefone', isAdmin, userController.getByTelefone);
 

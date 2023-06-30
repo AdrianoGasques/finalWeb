@@ -8,6 +8,34 @@ const FichaAnimal = require('../models/fichaAnimal');
 const FichaServico = require('../models/fichaServico');
 
 router.get('/', async (req, res) => {
+  // try {
+  //   // Dados dos usuários predefinidos
+  //   const predefinedUsers = [
+  //     {
+  //       nome: 'Usuário 1',
+  //       email: 'usuariao1@example.com',
+  //       senha: '1234',
+  //       telefone: '123456789',
+  //       admin : true
+  //     },
+  //     {
+  //       nome: 'Usuário 2',
+  //       email: 'usuarioa2@example.com',
+  //       senha: 'senha2',
+  //       telefone: '987654321'
+  //     },
+  //     // Adicione mais usuários predefinidos conforme necessário
+  //   ];
+
+  //   // Criação dos usuários predefinidos
+  //   const createdUsers = await Promise.all(predefinedUsers.map(user => User.create(user)));
+
+  //   res.json(createdUsers);
+  // } catch (error) {
+  //   console.error(error);
+  //   res.status(500).json({ mensagem: 'Erro ao criar usuários predefinidos' });
+  // }
+
   try {
     // Criação das tabelas
     await sequelize.sync({ force: true });
@@ -21,13 +49,9 @@ router.get('/', async (req, res) => {
       { nome: 'fulano', email: 'fulano@example.com', senha: '123456', telefone: '555555555' }
     ];
     
-    const hashedUsers = users.map(user => {
-      const hashedPassword = bcrypt.hashSync(user.senha, bcrypt.genSaltSync(10));
-      return { ...user, senha: hashedPassword };
-    });
     
-    await User.bulkCreate(hashedUsers);
-    console.log('Registros de Usuário inseridos com sucesso.');
+      const createdUsers = await Promise.all(users.map(user => User.create(user)));
+      console.log('Registros de Usuário inseridos com sucesso.');
 
     // Inserção de registros nos animais
     await FichaAnimal.bulkCreate([

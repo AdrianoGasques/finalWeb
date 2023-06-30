@@ -6,9 +6,7 @@ dotenv.config();
 
 // Configurações do Express
 app.use(express.json());
-// Configuração do body-parser
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+
 
 // Rotas
 const installRoutes = require('./routes/installRoutes');

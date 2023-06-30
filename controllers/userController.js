@@ -103,12 +103,22 @@ exports.update = async (req, res) => {
   try {
     const userId = req.params.id;
     const updatedUser = req.body;
+    const currentUser = req.user; // Obtém o usuário atual do middleware de autenticação
 
     // Verifica se o objeto existe antes de definir a propriedade 'nome'
     if (updatedUser && updatedUser.nome) {
       const user = await User.findByPk(userId);
       if (user) {
-        await user.update(updatedUser);
+        // Verifica se o usuário atual é um administrador
+        if (currentUser.admin) {
+          // O usuário atual é um administrador, portanto, pode alterar todas as propriedades
+          await user.update(updatedUser);
+        } else {
+          // O usuário atual não é um administrador, portanto, impede a alteração da propriedade 'admin'
+          delete updatedUser.admin; // Remove a propriedade 'admin' do objeto atualizado
+          await user.update(updatedUser);
+        }
+
         res.json(user);
       } else {
         res.status(404).json({ mensagem: 'Usuário não encontrado' });

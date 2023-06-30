@@ -10,7 +10,9 @@ const FichaServico = require('../models/fichaServico');
 router.get('/', async (req, res) => {
   try {
     // Criação das tabelas
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ 
+      force: true 
+    });
     console.log('Tabelas criadas com sucesso.');
 
     const users = [

@@ -12,6 +12,7 @@ const generateToken = (userId, admin = false) => {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
+
 // Rota de login de usuário
 exports.login = async (req, res) => {
   const { email, senha } = req.body;

@@ -48,7 +48,6 @@ exports.createAdmin = async (req, res) => {
     if (!currentUser || !currentUser.admin) {
       return res.status(403).json({ mensagem: 'Acesso não autorizado' });
     }
-
     const newAdmin = await User.create({
       nome,
       email,
@@ -66,6 +65,7 @@ exports.createAdmin = async (req, res) => {
 
 // Busca de um usuário pelo ID
 exports.getById = async (req, res) => {
+  console.log(req.user);
   try {
     const user = req.user;
     res.json(user);
@@ -100,30 +100,27 @@ exports.getByTelefone = async (req, res) => {
 // Atualização de um usuário
 exports.update = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { nome, email, senha, telefone } = req.body;
+    const userId = req.params.id;
+    const updatedUser = req.body;
 
-    const user = req.user;
-    
-    // Verificar se o usuário que está fazendo a solicitação é um administrador
-    const currentUser = await User.findByPk(req.userId);
-    if (!currentUser || !currentUser.admin) {
-      return res.status(403).json({ mensagem: 'Acesso não autorizado' });
+    // Verifica se o objeto existe antes de definir a propriedade 'nome'
+    if (updatedUser && updatedUser.nome) {
+      const user = await User.findByPk(userId);
+      if (user) {
+        await user.update(updatedUser);
+        res.json(user);
+      } else {
+        res.status(404).json({ mensagem: 'Usuário não encontrado' });
+      }
+    } else {
+      res.status(400).json({ mensagem: 'Dados inválidos' });
     }
-
-    user.nome = nome;
-    user.email = email;
-    user.senha = senha;
-    user.telefone = telefone;
-
-    await user.save();
-
-    res.json({ mensagem: 'Usuário atualizado com sucesso', user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ mensagem: 'Erro ao atualizar usuário' });
   }
 };
+
 
 // Exclusão de um usuário
 exports.delete = async (req, res) => {

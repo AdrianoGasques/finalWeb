@@ -17,6 +17,17 @@ exports.getUserById = async (req, res, next) => {
   }
 };
 
+// Rota para obter um usuário pelo ID
+exports.getById = async (req, res) => {
+  try {
+    const user = req.user;
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensagem: 'Erro ao buscar usuário' });
+  }
+};
+
 // Middleware para buscar usuários por nome
 exports.getUsersByNome = async (req, res, next) => {
   try {

@@ -31,7 +31,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ mensagem: 'Senha incorreta' });
     }
 
-    // Gerar token JWT
+    // Gerar token JWT apos o login com sucesso
     const token = generateToken(user.id, user.admin);
 
     res.json({ token });

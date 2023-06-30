@@ -4,6 +4,8 @@ const userController = require('../controllers/userController');
 const isAdmin = require('../middlewares/adminMiddleware')
 const authenticate = require('../middlewares/authMiddleware')
 const authorizeUser = require('../middlewares/authUserMiddleware')
+const { getUserById } = require('../middlewares/userMiddleware');
+
 
 // Rota para criar um administrador
 router.post('/admin', userController.createAdmin);
@@ -11,14 +13,17 @@ router.post('/admin', userController.createAdmin);
 // Rota pública para criação de usuário
 router.post('/create', userController.create);
 
+//rota para usuarios somente os mesmos
+router.get('/:id', authenticate, authorizeUser, getUserById, userController.getById);
+router.put('/:id', authenticate, authorizeUser, getUserById, userController.update);
+
 
 // Rotas que exigem autenticação de administrador
-router.get('/', userController.getAll);
-router.get('/:id', userController.getById);
+router.get('/', isAdmin,userController.getAll);
+router.get('/admin/:id', isAdmin, getUserById, userController.getById);
+router.delete('/admin/:id', isAdmin, userController.delete);
+router.get('/nome/:nome', isAdmin, userController.getByNome);
+router.get('/telefone/:telefone', isAdmin, userController.getByTelefone);
 
-router.put('/:id', userController.update);
-router.delete('/:id', isAdmin, userController.delete);
-router.get('/search/nome/:nome', isAdmin, userController.getByNome);
-router.get('/search/telefone/:telefone', isAdmin, userController.getByTelefone);
 
 module.exports = router;

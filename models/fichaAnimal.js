@@ -2,40 +2,38 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const User = require('./user');
 
-
-const FichaAnimal = sequelize.define('fichaAnimal',{
-  id:{
+const FichaAnimal = sequelize.define('fichaAnimal', {
+  id: {
     type: DataTypes.INTEGER,
-    autoIncrement:true,
+    autoIncrement: true,
     allowNull: false,
-    primaryKey:true
+    primaryKey: true
   },
-  nome:{
+  nome: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  idade:{
+  idade: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  raca:{
+  raca: {
     type: DataTypes.STRING,
     allowNull: true
   },
-  tipo:{
+  tipo: {
     type: DataTypes.STRING,
     allowNull: true
-  },
+  }
+});
 
-})
-
- FichaAnimal.belongsTo(User,{
+FichaAnimal.belongsTo(User, {
   constraint: true,
   foreignKey: 'id_user'
- })
- User.hasMany(FichaAnimal,{
-  foreignKey:"id_user"
- })
+});
 
+User.hasMany(FichaAnimal, {
+  foreignKey: 'id_user'
+});
 
 module.exports = FichaAnimal;

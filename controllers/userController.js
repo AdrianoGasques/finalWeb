@@ -1,10 +1,6 @@
 const User = require('../models/user');
 const { Op } = require('sequelize');
-const {
-  getUserById,
-  getUsersByNome,
-  getUsersByTelefone
-} = require('../middlewares/userMiddleware');
+const { getUserById, getUsersByNome, getUsersByTelefone } = require('../middlewares/userMiddleware');
 
 // Listagem de usuários com paginação
 exports.getAll = async (req, res) => {
@@ -31,13 +27,40 @@ exports.create = async (req, res) => {
       nome,
       email,
       senha,
-      telefone
+      telefone,
+      admin: false // Definir o campo admin como false por padrão
     });
 
     res.status(201).json({ mensagem: 'Usuário criado com sucesso', user: newUser });
   } catch (error) {
     console.error(error);
     res.status(500).json({ mensagem: 'Erro ao criar usuário' });
+  }
+};
+
+// Criação de um novo administrador
+exports.createAdmin = async (req, res) => {
+  try {
+    const { nome, email, senha, telefone } = req.body;
+
+    // Verificar se o usuário que está fazendo a solicitação é um administrador
+    const currentUser = await User.findByPk(req.userId);
+    if (!currentUser || !currentUser.admin) {
+      return res.status(403).json({ mensagem: 'Acesso não autorizado' });
+    }
+
+    const newAdmin = await User.create({
+      nome,
+      email,
+      senha,
+      telefone,
+      admin: true // Definir o campo admin como true para criar um administrador
+    });
+
+    res.status(201).json({ mensagem: 'Administrador criado com sucesso', admin: newAdmin });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensagem: 'Erro ao criar administrador' });
   }
 };
 
@@ -81,6 +104,12 @@ exports.update = async (req, res) => {
     const { nome, email, senha, telefone } = req.body;
 
     const user = req.user;
+    
+    // Verificar se o usuário que está fazendo a solicitação é um administrador
+    const currentUser = await User.findByPk(req.userId);
+    if (!currentUser || !currentUser.admin) {
+      return res.status(403).json({ mensagem: 'Acesso não autorizado' });
+    }
 
     user.nome = nome;
     user.email = email;
@@ -100,6 +129,12 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     const user = req.user;
+
+    // Verificar se o usuário que está fazendo a solicitação é um administrador
+    const currentUser = await User.findByPk(req.userId);
+    if (!currentUser || !currentUser.admin) {
+      return res.status(403).json({ mensagem: 'Acesso não autorizado' });
+    }
 
     await user.destroy();
 

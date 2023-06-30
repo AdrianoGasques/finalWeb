@@ -1,20 +1,26 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
 dotenv.config();
 
 // Configurações do Express
 app.use(express.json());
+// Configuração do body-parser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // Rotas
 const installRoutes = require('./routes/installRoutes');
 const userRoutes = require('./routes/userRoutes');
 const fichaAnimalRoutes = require('./routes/fichaAnimalRoutes');
 const fichaServicoRoutes = require('./routes/fichaServicoRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/fichas-animal', fichaAnimalRoutes);
 app.use('/api/fichas-servico', fichaServicoRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/install', installRoutes);
 
 // Inicialização do servidor

@@ -4,11 +4,11 @@ const FichaAnimal = require('./fichaAnimal.js');
 const User = require('./user.js');
 
 const FichaServico = sequelize.define('FichaServico', {
-  id:{
+  id: {
     type: DataTypes.INTEGER,
-    autoIncrement:true,
+    autoIncrement: true,
     allowNull: false,
-    primaryKey:true
+    primaryKey: true
   },
   problema: {
     type: DataTypes.TEXT,

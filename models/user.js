@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-// const FichaAnimal = require('./fichaAnimal.js');
-
+const bcrypt = require('bcrypt');
 
 const User = sequelize.define('User', {
   id: {
@@ -21,7 +20,11 @@ const User = sequelize.define('User', {
   },
   senha: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    set(value) {
+      const hashedPassword = bcrypt.hashSync(value, bcrypt.genSaltSync(10));
+      this.setDataValue('senha', hashedPassword);
+    }
   },
   telefone: {
     type: DataTypes.STRING,
@@ -29,6 +32,7 @@ const User = sequelize.define('User', {
   },
   admin: {
     type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 });
 

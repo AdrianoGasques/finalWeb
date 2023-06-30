@@ -1,56 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="Login.css">
 </head>
-
 <body>
     <div class="form">
         <form method="POST" class="login">
             <label for="email">E-mail</label>
-            <input type="email" placeholder="E-mail" autofocus="true" id="email" />
+            <input type="email" placeholder="E-mail" autofocus="true" />
             <label for="password">Senha</label>
-            <input type="password" placeholder="senha" id="password" />
+            <input type="password" placeholder="senha" />
             <a href="#">Esqueci minha senha</a>
             <a href="./Cadastro.html">Cadastrar</a>
-            <input type="submit" value="Acessar" class="btn" onclick="login()" />
+            <input type="submit" value="Acessar" class="btn" />
         </form>
     </div>
-
-    <script>
-        function login() {
-          var email = document.getElementById('email').value;
-          var senha = document.getElementById('password').value;
-      
-          fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Origin': 'http://localhost:8000' // Substitua pelo seu domínio ou endereço local
-            },
-            body: JSON.stringify({
-              email: email,
-              senha: senha
-            })
-          })
-            .then(response => response.json())
-            .then(data => {
-              // Lógica de tratamento da resposta do servidor
-              console.log(data);
-            })
-            .catch(error => {
-              console.error(error);
-              alert('Ocorreu um erro ao fazer login. Por favor, tente novamente.');
-            });
-        }
-     
-
-
-    </script>
 </body>
-
 </html>

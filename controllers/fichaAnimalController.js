@@ -3,19 +3,21 @@ const FichaAnimal = require('../models/fichaAnimal');
 // Criação de uma nova ficha de animal
 exports.create = async (req, res) => {
   try {
-    const { nome, idade, historico } = req.body;
+    const { userId } = req.params; // Obtém o ID do usuário da URL
+    const { nome, idade, raca, tipo } = req.body; // Obtém os dados do animal do corpo da requisição
 
-    const novaFichaAnimal = await FichaAnimal.create({
-      nome,
-      idade,
-      historico,
-      userId: req.params.id
-    });
+    // Cria o animal e associa-o ao usuário pelo ID
+    const animal = await FichaAnimal.create({ 
+      nome, 
+      idade, 
+      raca, 
+      tipo, 
+      id_user: userId });
 
-    res.status(201).json({ mensagem: 'Ficha de animal criada com sucesso', fichaAnimal: novaFichaAnimal });
+    res.json(animal);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ mensagem: 'Erro ao criar ficha de animal' });
+    res.status(500).json({ mensagem: 'Erro ao criar animal' });
   }
 };
 

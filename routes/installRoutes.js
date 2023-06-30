@@ -8,34 +8,6 @@ const FichaAnimal = require('../models/fichaAnimal');
 const FichaServico = require('../models/fichaServico');
 
 router.get('/', async (req, res) => {
-  // try {
-  //   // Dados dos usuários predefinidos
-  //   const predefinedUsers = [
-  //     {
-  //       nome: 'Usuário 1',
-  //       email: 'usuariao1@example.com',
-  //       senha: '1234',
-  //       telefone: '123456789',
-  //       admin : true
-  //     },
-  //     {
-  //       nome: 'Usuário 2',
-  //       email: 'usuarioa2@example.com',
-  //       senha: 'senha2',
-  //       telefone: '987654321'
-  //     },
-  //     // Adicione mais usuários predefinidos conforme necessário
-  //   ];
-
-  //   // Criação dos usuários predefinidos
-  //   const createdUsers = await Promise.all(predefinedUsers.map(user => User.create(user)));
-
-  //   res.json(createdUsers);
-  // } catch (error) {
-  //   console.error(error);
-  //   res.status(500).json({ mensagem: 'Erro ao criar usuários predefinidos' });
-  // }
-
   try {
     // Criação das tabelas
     await sequelize.sync({ force: true });
@@ -48,10 +20,9 @@ router.get('/', async (req, res) => {
       { nome: 'lara', email: 'lara@example.com', senha: '123456', telefone: '444444444' },
       { nome: 'fulano', email: 'fulano@example.com', senha: '123456', telefone: '555555555' }
     ];
-    
-    
-      const createdUsers = await Promise.all(users.map(user => User.create(user)));
-      console.log('Registros de Usuário inseridos com sucesso.');
+
+    const createdUsers = await Promise.all(users.map(user => User.create(user)));
+    console.log('Registros de Usuário inseridos com sucesso.');
 
     // Inserção de registros nos animais
     await FichaAnimal.bulkCreate([
@@ -65,11 +36,11 @@ router.get('/', async (req, res) => {
 
     // Inserção de registros nas fichas
     await FichaServico.bulkCreate([
-      { problema: 'problema do animal 1', animal_id: 1, id_user: 1 },
-      { problema: 'problema do animal 1', animal_id: 1, id_user: 2 },
-      { problema: 'problema do ficha 3', animal_id: 3, id_user: 3 },
-      { problema: 'problema do ficha 4', animal_id: 4, id_user: 4 },
-      { problema: 'problema do ficha 5', animal_id: 5, id_user: 5 }
+      { problema: 'problema do animal 1', animal_id: 1, user_id: 1 },
+      { problema: 'problema do animal 1', animal_id: 1, user_id: 2 },
+      { problema: 'problema do ficha 3', animal_id: 3, user_id: 3 },
+      { problema: 'problema do ficha 4', animal_id: 4, user_id: 4 },
+      { problema: 'problema do ficha 5', animal_id: 5, user_id: 5 }
     ]);
     console.log('Registros de Ficha inseridos com sucesso.');
 

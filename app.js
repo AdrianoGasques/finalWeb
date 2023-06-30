@@ -3,12 +3,8 @@ const app = express();
 const dotenv = require('dotenv');
 dotenv.config();
 
-
-
-
 // Configurações do Express
 app.use(express.json());
-
 
 // Rotas
 const installRoutes = require('./routes/installRoutes');

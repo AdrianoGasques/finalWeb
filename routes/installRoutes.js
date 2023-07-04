@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
     console.log('Tabelas criadas com sucesso.');
 
     const users = [
-      { nome: 'adriano', email: 'adriano@example.com', senha: '123456', telefone: '111111111', admin: true },
+      { nome: 'adriano', email: process.env.USER_LOGIN, senha: process.env.SENHA_LOGIN, telefone: '111111111', admin: true },
       { nome: 'lucas', email: 'lucas@example.com', senha: '123456', telefone: '222222222' },
       { nome: 'samara', email: 'samara@example.com', senha: '123456', telefone: '333333333' },
       { nome: 'lara', email: 'lara@example.com', senha: '123456', telefone: '444444444' },

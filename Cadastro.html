@@ -40,10 +40,10 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Verifica se o cadastro foi realizado com sucesso
+
                 if (data) {
                     alert('Cadastro realizado com sucesso! Faça o login para continuar.');
-                    window.location.href = './Login.html'; // Redireciona para a página de login
+                    window.location.href = './Login.html'; 
                 } else {
                     alert('Ocorreu um erro ao cadastrar. Por favor, tente novamente.');
                 }

@@ -35,7 +35,6 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Verifica se o login foi autorizado
                 if (data && data.token) {
                     localStorage.setItem('token', data.token);
                     console.log(data.token);

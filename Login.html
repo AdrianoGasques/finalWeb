@@ -37,8 +37,12 @@
             .then(data => {
                 // Verifica se o login foi autorizado
                 if (data && data.token) {
-                    // Redireciona para a página de tabela de animais
-                    window.location.href = 'http://localhost:3000/api/fichas-animal/1';
+                    localStorage.setItem('token', data.token);
+                    console.log(data.token);
+                    const token = (data.token)
+                    
+                    window.location.href = './Animais.html';      
+                    
                 } else {
                     alert('Login não autorizado. Verifique suas credenciais e tente novamente.');
                 }

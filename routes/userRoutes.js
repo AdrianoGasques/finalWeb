@@ -23,7 +23,7 @@ router.post('/createadmin', isAdmin, userController.createAdmin);
 
 // Rotas que exigem autenticação de administrador
 
-router.get('/admin/', isAdmin,userController.getAll);
+router.get('/', isAdmin,userController.getAll);
 router.get('/admin/:id', isAdmin, getUserById, userController.getById);
 router.delete('/admin/:id', isAdmin, userController.delete);
 router.put('/admin/:id',isAdmin, getUserById, userController.update);

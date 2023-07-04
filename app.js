@@ -18,8 +18,8 @@ const fichaServicoRoutes = require('./routes/fichaServicoRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 app.use('/api/users', userRoutes);
-app.use('/api/fichas-animal', fichaAnimalRoutes);
-app.use('/api/fichas-servico', fichaServicoRoutes);
+app.use('/api/animal', fichaAnimalRoutes);
+app.use('/api/servico', fichaServicoRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/install', installRoutes);
 

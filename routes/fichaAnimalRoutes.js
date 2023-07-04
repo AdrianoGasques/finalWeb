@@ -11,9 +11,11 @@ const { getUserById } = require('../middlewares/userMiddleware');
 
 router.post('/:userId', authenticate, fichaAnimalController.create);
 
-router.get('/admin/:id', isAdmin,  fichaAnimalController.getById);
+router.get('/:id/', authenticate, authorizeUser, getUserById ,fichaAnimalController.getAllByUser);
 
-router.get('/:id',  authenticate, fichaAnimalController.getById);
+router.get('/', isAdmin,  fichaAnimalController.getAllByUserAdmin);
+
+//router.get('/:id',  authenticate, fichaAnimalController.getById);
 
 router.put('/:id', authenticate, isAdmin,fichaAnimalController.update);
 

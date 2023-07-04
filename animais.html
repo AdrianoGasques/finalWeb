@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Animais</title>
+  <link rel="stylesheet" href="./Animal.css">
+</head>
+<body>
+  <div class="table">
+    <div class="box">
+      <h1>Tabela de Animais</h1>
+      <table>
+        <thead>
+      
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Espécie</th>
+            <th>Dono</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--Os dados da tabela de animais-->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    
+    // Obtém o token do localStorage
+const token = localStorage.getItem('token');
+console.log(token)
+if (token) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `${token}`
+  };
+
+  // Realiza a requisição de animais com os headers definidos
+  fetch('http://localhost:3000/api/animal/', {
+    method: 'GET',
+    headers: headers
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+        if (Array.isArray(data)) {
+          const tableBody = document.querySelector('tbody');
+
+          data.forEach(animal => {
+            const row = document.createElement('tr');
+            const idCell = document.createElement('td');
+            const nomeCell = document.createElement('td');
+            const especieCell = document.createElement('td');
+            const donoCell = document.createElement('td');
+
+            idCell.textContent = animal.id;
+            nomeCell.textContent = animal.nome;
+            especieCell.textContent = animal.tipo;
+            donoCell.textContent = animal.id_user;
+
+            row.appendChild(idCell);
+            row.appendChild(nomeCell);
+            row.appendChild(especieCell);
+            row.appendChild(donoCell);
+
+            tableBody.appendChild(row);
+          });
+        } else {
+          console.log('Dados inválidos');
+        }
+      });
+    } else {
+  // Caso o token não esteja disponível, redireciona para a página de login
+  window.location.href = 'http://localhost:3000/api/auth/login';
+}
+  </script>
+</body>
+</html>

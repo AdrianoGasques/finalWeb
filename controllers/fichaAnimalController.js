@@ -1,4 +1,5 @@
 const FichaAnimal = require('../models/fichaAnimal');
+const User = require('../models/user');
 
 // Criação de uma nova ficha de animal
 exports.create = async (req, res) => {
@@ -81,5 +82,34 @@ exports.delete = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ mensagem: 'Erro ao excluir ficha de animal' });
+  }
+};
+
+
+exports.getAllByUser = async (req, res) => {
+  try {
+    const { id } = req.params; // Obtém o ID do usuário da URL
+
+    let fichasAnimal;
+      fichasAnimal = await FichaAnimal.findAll({ where: { id_user: id } });
+    res.json(fichasAnimal);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensagem: 'Erro ao buscar fichas de animal' });
+  }
+};
+
+exports.getAllByUserAdmin = async (req, res) => {
+  try {
+    const { limit_: limit_ = 5, offset_: offset_ = 1 } = req.query;
+    const offset = (offset_ - 1) * limit_;
+    const animal = await FichaAnimal.findAll({
+      limit: +limit_,
+      offset,
+    });
+    res.json(animal);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensagem: 'Erro ao buscar fichas de animal' });
   }
 };

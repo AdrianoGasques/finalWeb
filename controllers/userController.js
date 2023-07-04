@@ -32,7 +32,7 @@ exports.create = async (req, res) => {
       admin: false // Definir o campo admin como false por padrão
     });
 
-    res.status(201).json({ mensagem: 'Usuário criado com sucesso', user: newUser });
+    return res.status(200).json({ message: 'Cadastro realizado com sucesso! Faça o login para continuar.' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ mensagem: 'Erro ao criar usuário' });
@@ -73,28 +73,6 @@ exports.getById = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ mensagem: 'Erro ao buscar usuário' });
-  }
-};
-
-// Busca de usuários por nome
-exports.getByNome = async (req, res) => {
-  try {
-    const users = req.users;
-    res.json(users);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ mensagem: 'Erro ao buscar usuários' });
-  }
-};
-
-// Busca de usuários por telefone
-exports.getByTelefone = async (req, res) => {
-  try {
-    const users = req.users;
-    res.json(users);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ mensagem: 'Erro ao buscar usuários' });
   }
 };
 

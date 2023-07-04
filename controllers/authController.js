@@ -32,8 +32,10 @@ exports.login = async (req, res) => {
       return res.status(401).json({ mensagem: 'Senha incorreta' });
     }
 
-    // Gerar token JWT apos o login com sucesso
+    // Gerar token JWT apos o login com sucesso e adiciona contagem de logins
     const token = generateToken(user.id, user.admin);
+    user.login = user.login + 1;
+    await user.save();
 
     res.json({ token });
   } catch (error) {
@@ -41,3 +43,4 @@ exports.login = async (req, res) => {
     res.status(500).json({ mensagem: 'Erro ao fazer login' });
   }
 };
+

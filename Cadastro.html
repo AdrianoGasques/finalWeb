@@ -3,23 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cadastro</title>
     <link rel="stylesheet" href="Login.css">
 </head>
 <body>
     <div class="form">
-        <form method="POST" class="login">
+        <form id="cadastroForm" class="login">
             <label for="name">Nome</label>
-            <input type="text" placeholder="Nome">
+            <input type="text" id="name" placeholder="Nome">
             <label for="phone">Telefone</label>
-            <input type="tel" placeholder="(00)99999999">
+            <input type="tel" id="phone" placeholder="(00)99999999">
             <label for="email">E-mail</label>
-            <input type="email" placeholder="E-mail" autofocus="true" />
+            <input type="email" id="email" placeholder="E-mail" autofocus="true" />
             <label for="password">Senha</label>
-            <input type="password" placeholder="Senha" />
+            <input type="password" id="password" placeholder="Senha" />
             <a href="./Login.html">Já tem cadastro? Login</a>
-            <input type="submit" value="Acessar" class="btn" />
+            <input type="submit" value="Cadastrar" class="btn" />
         </form>
     </div>
+
+    <script>
+        document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('name').value;
+            const telefone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('password').value;
+
+            fetch('http://localhost:3000/api/users/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nome, email, senha, telefone })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Verifica se o cadastro foi realizado com sucesso
+                if (data) {
+                    alert('Cadastro realizado com sucesso! Faça o login para continuar.');
+                    window.location.href = './Login.html'; // Redireciona para a página de login
+                } else {
+                    alert('Ocorreu um erro ao cadastrar. Por favor, tente novamente.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Ocorreu um erro ao cadastrar. Por favor, tente novamente.');
+            });
+        });
+    </script>
 </body>
 </html>

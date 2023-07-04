@@ -3,20 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <link rel="stylesheet" href="Login.css">
 </head>
 <body>
     <div class="form">
-        <form method="POST" class="login">
+        <form id="loginForm" class="login">
             <label for="email">E-mail</label>
-            <input type="email" placeholder="E-mail" autofocus="true" />
+            <input type="email" id="email" placeholder="E-mail" autofocus="true" />
             <label for="password">Senha</label>
-            <input type="password" placeholder="senha" />
+            <input type="password" id="password" placeholder="senha" />
             <a href="#">Esqueci minha senha</a>
             <a href="./Cadastro.html">Cadastrar</a>
             <input type="submit" value="Acessar" class="btn" />
         </form>
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('password').value;
+
+            fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, senha })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Verifica se o login foi autorizado
+                if (data && data.token) {
+                    // Redireciona para a página de tabela de animais
+                    window.location.href = 'http://localhost:3000/api/fichas-animal/1';
+                } else {
+                    alert('Login não autorizado. Verifique suas credenciais e tente novamente.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Ocorreu um erro ao fazer login. Por favor, tente novamente.');
+            });
+        });
+    </script>
 </body>
 </html>

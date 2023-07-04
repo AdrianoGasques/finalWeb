@@ -19,15 +19,13 @@ router.put('/:id', authenticate, authorizeUser, getUserById, userController.upda
 
 
 // Rota para criar um administrador
-router.post('/admin', isAdmin, userController.createAdmin);
+router.post('/createadmin', isAdmin, userController.createAdmin);
 
 // Rotas que exigem autenticação de administrador
 
 router.get('/admin/', isAdmin,userController.getAll);
 router.get('/admin/:id', isAdmin, getUserById, userController.getById);
 router.delete('/admin/:id', isAdmin, userController.delete);
-router.get('/admin/nome/:nome', isAdmin, userController.getByNome);
-router.get('/admin/telefone/:telefone', isAdmin, userController.getByTelefone);
 router.put('/admin/:id',isAdmin, getUserById, userController.update);
 
 module.exports = router;

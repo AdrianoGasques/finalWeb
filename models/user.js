@@ -33,6 +33,10 @@ const User = sequelize.define('User', {
   admin: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  login: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
   }
 });
 
